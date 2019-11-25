@@ -6,66 +6,72 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 19:59:38 by estina            #+#    #+#             */
-/*   Updated: 2019/11/23 21:28:13 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/25 06:09:51 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	point(va_list ap, int *size, t_flags *flags)
+static void	handle_bonus(char **str)
+{
+	if (!ft_strncmp(*str, "hh", 2))
+		*str += 2;
+	else if (**str == 'h')
+		(*str)++;
+	else if (!ft_strncmp(*str, "ll", 2))	// Pendiente de hacer, trabajar con long long int
+		*str += 2;
+	else if (**str == 'l')					// Pendiente de hacer, trabajar con long int
+		(*str)++;
+}
+
+static void	handle_pb(char **str, va_list ap, int *size, t_flags *flags)
 {
 	char	*aux;
+	char	*tmp;
 
-	aux = ft_strjoin("0x", hex_itoa(va_arg(ap, unsigned long), 0));
-	handle_pointer(size, flags, &aux);
-}
-
-static int	bonus_cases(char **str, va_list ap, int *size)
-{
-	int		*i;
-
-	if (!ap)
-		return (0);
-	if (**str == 'n')
+	handle_bonus(str);
+	if (**str == 'p')
 	{
-		i = va_arg(ap, int*);
-		*i = *size;
-		return (1);
+		tmp = hex_itoa(va_arg(ap, unsigned long), 0);
+		aux = ft_strjoin("0x", tmp);
+		handle_pointer(size, flags, &aux);
+		free(tmp);
 	}
-	return (0);
+	else if (**str == 'n')
+		handle_n(str, ap, size);
 }
 
-static void	handle_int(t_flags *flags, va_list ap, int *size)
-{
-	int		num;
-	char	*number;
-
-	num = va_arg(ap, int);
-	number = ft_itoa(num);
-	if (flags->flag_plus && num >= 0)
-		number = ft_strjoin("+", number);
-	handle(size, flags, number);
-	free(number);
-}
+/*
+**	handle_types():
+**	Depending of the type we introduce in the string, sends each argument to
+**	the handler that transforms it into a simple string. Then calls the handle()
+**	Bonus: works with 'n'
+*/
 
 void		handle_types(char **str, va_list ap, int *size, t_flags *flags)
 {
-	if (bonus_cases(str, ap, size))
-		return ;
-	else if (**str == 'c' || **str == '%')
+	char	*aux;
+
+	handle_pb(str, ap, size, flags);
+	if (**str == 'c' || **str == '%')
 		handle_char(size, ap, flags, **str);
 	else if (**str == 's')
 		handle_string(size, ap, flags);
 	else if (**str == 'i' || **str == 'd')
-		handle_int(flags, ap, size);
+	{
+		aux = ft_itoa(va_arg(ap, int));
+		handle(size, flags, aux);
+		free(aux);
+	}
 	else if (**str == 'u')
-		handle(size, flags, unsigned_itoa(va_arg(ap, unsigned int)));
-	else if (**str == 'x')
-		handle(size, flags, hex_itoa(va_arg(ap, unsigned long), 0));
-	else if (**str == 'X')
-		handle(size, flags, hex_itoa(va_arg(ap, unsigned long), 1));
-	else if (**str == 'p')
-		point(ap, size, flags);
-	else
-		return ;
+	{
+		aux = unsigned_itoa(va_arg(ap, unsigned int));
+		handle(size, flags, aux);
+	}
+	else if (**str == 'x' || **str == 'X')
+	{
+		aux = hex_itoa(va_arg(ap, unsigned long), (**str == 'x' ? 0 : 1));
+		handle(size, flags, aux);
+		free(aux);
+	}
 }

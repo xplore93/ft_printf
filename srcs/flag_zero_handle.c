@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 01:49:53 by estina            #+#    #+#             */
-/*   Updated: 2019/11/22 08:32:13 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/24 19:38:16 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,17 @@ void		flag_zero_handle(va_list ap, char **str, t_flags *flags)
 	int		aux;
 	int		size;
 
+	num = 0;
 	if (**str == '*')
+	{
 		num = va_arg(ap, int);
+		(*str)++;
+	}
 	else if (ft_isdigit(**str))
 	{
 		num = ft_atoi(*str);
 		aux = num;
-		size = 0;
+		size = 1;
 		while (aux >= 10)
 		{
 			aux /= 10;
@@ -40,10 +44,7 @@ void		flag_zero_handle(va_list ap, char **str, t_flags *flags)
 		}
 		*str += size;
 	}
-	else
-		num = 0;
 	flags->spaces_zeros = num;
 	if (num < 0)
 		chage_flag(num, flags);
-	(*str)++;
 }

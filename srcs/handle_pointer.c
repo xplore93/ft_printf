@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:11:06 by estina            #+#    #+#             */
-/*   Updated: 2019/11/23 16:30:09 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/25 03:48:36 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	flag_point(int *size, t_flags *flags, char **str)
 
 int			handle_pointer(int *size, t_flags *flags, char **str)
 {
-	if (!*str)
+	if (!str)
 		return (0);
 	if (!ft_strncmp("0x0", *str, 4) && !flags->width_precision)
 		if (flags->flag_point)
