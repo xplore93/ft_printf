@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:35:20 by estina            #+#    #+#             */
-/*   Updated: 2019/11/26 01:43:28 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/28 05:38:29 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	flags_handler(char **str, va_list ap, t_flags *flags)
 {
 	if (!ap)
 		return ;
-	if (**str == ' ')
+	while (**str == ' ')
 	{
 		flags->flag_plus = 2;
 		(*str)++;
@@ -83,6 +83,7 @@ static void	init_flags(t_flags *flags)
 	flags->flag_sharp = 0;
 	flags->spaces_zeros = 0;
 	flags->width_precision = 0;
+	flags->flag_hh = 0;
 }
 
 /*

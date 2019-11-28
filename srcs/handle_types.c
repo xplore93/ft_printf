@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 19:59:38 by estina            #+#    #+#             */
-/*   Updated: 2019/11/26 05:03:25 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/28 10:42:13 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,15 @@
 static void	handle_bonus(char **str, t_flags *flags, int *size, va_list ap)
 {
 	if (!ft_strncmp(*str, "hh", 2))
+	{
+		flags->flag_hh = 2;
 		*str += 2;
+	}
 	else if (**str == 'h')
+	{
+		flags->flag_hh = 1;
 		(*str)++;
+	}
 	else if (!ft_strncmp(*str, "ll", 2))
 	{
 		flags->flag_ll = 2;
@@ -53,10 +59,16 @@ static void	handle_int(t_flags *flags, va_list ap, int *size)
 {
 	char	*aux;
 
-	if (!flags->flag_ll)
+	if (!flags->flag_ll && !flags->flag_hh)
 		aux = ft_itoa(va_arg(ap, int));
-	else
+	else if (flags->flag_ll == 2)
 		aux = long_long_itoa(va_arg(ap, long long int));
+	else if (flags->flag_ll == 1)
+		aux = long_itoa(va_arg(ap, long int));
+	else if (flags->flag_hh == 2)
+		aux = ft_itoa((short)va_arg(ap, int));
+	else
+		aux = ft_itoa(va_arg(ap, int));
 	handle(size, flags, aux);
 	free(aux);
 }
@@ -90,8 +102,6 @@ static void	handle_hex(va_list ap, char **str, t_flags *flags, int *size)
 
 void		handle_types(char **str, va_list ap, int *size, t_flags *flags)
 {
-	char	*aux;
-
 	handle_pb(str, ap, size, flags);
 	if (**str == 'c' || **str == '%')
 		handle_char(size, ap, flags, **str);
@@ -100,10 +110,12 @@ void		handle_types(char **str, va_list ap, int *size, t_flags *flags)
 	else if (**str == 'i' || **str == 'd')
 		handle_int(flags, ap, size);
 	else if (**str == 'u')
-	{
-		aux = unsigned_itoa(va_arg(ap, unsigned long long int));
-		handle(size, flags, aux);
-	}
+		handle_unsigned(ap, size, flags);
 	else if (**str == 'x' || **str == 'X')
 		handle_hex(ap, str, flags, size);
+	else
+	{
+		ft_putchar_fd(**str, 1);
+		(*size)++;
+	}
 }

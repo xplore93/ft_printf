@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 13:08:37 by estina            #+#    #+#             */
-/*   Updated: 2019/11/26 03:45:38 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/28 05:38:15 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_flags
 	int			flag_plus;
 	int			flag_ll;
 	int			flag_sharp;
+	int			flag_hh;
 
 	int			spaces_zeros;
 	int			width_precision;
@@ -43,10 +44,13 @@ int				handle_pointer(int *size, t_flags *flags, char **str);
 int				handle_string(int *size, va_list ap, t_flags *flags);
 void			handle_types(char **str, va_list ap, int *size, t_flags *flags);
 int				handle(int *size, t_flags *flags, char *str);
+void			handle_unsigned(va_list ap, int *size, t_flags *flags);
 
 char			*hex_itoa(unsigned long nbr, int upper);
+char			*long_itoa(long int n);
 char			*long_long_itoa(long long int n);
-char			*unsigned_itoa(unsigned long long int n);
+char			*unsigned_itoa(unsigned long int n);
+char			*unsigned_long_itoa(unsigned long long int n);
 
 int				ft_printf(const char *format, ...);
 

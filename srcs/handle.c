@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 16:39:34 by estina            #+#    #+#             */
-/*   Updated: 2019/11/25 04:52:19 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/28 05:20:57 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,16 @@ static void	check_point(t_flags *flags, int *len, char **str)
 	*len = ft_strlen(*str);
 	if (flags->flag_point && !flags->width_precision)
 	{
-		if (**str == '+')
+		if (**str == '0')
+		{
+			*str += *len;
+			*len = 0;
+		}
+		else if (!ft_strncmp(*str, "+0", 2))
 		{
 			free(*str);
 			*str = ft_strdup("+");
 			*len = 1;
-		}
-		else
-		{
-			*str += *len;
-			*len = 0;
 		}
 	}
 }
