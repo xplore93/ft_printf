@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 19:12:25 by estina            #+#    #+#             */
-/*   Updated: 2019/11/22 05:29:22 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/26 01:40:38 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	transform(unsigned long n, unsigned long b_l, char *bs, char **s)
 		len++;
 		aux /= b_l;
 	}
+	(*s)[len + 1] = 0;
 	while (n >= b_l)
 	{
 		(*s)[len] = bs[n % b_l];

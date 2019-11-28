@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 13:08:37 by estina            #+#    #+#             */
-/*   Updated: 2019/11/25 03:46:43 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/26 03:45:38 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "libft/libft.h"
 # include <stdarg.h>
-# include <stdio.h>
 
 typedef struct	s_flags
 {
@@ -24,6 +23,8 @@ typedef struct	s_flags
 	int			flag_zero;
 	int			flag_align_right;
 	int			flag_plus;
+	int			flag_ll;
+	int			flag_sharp;
 
 	int			spaces_zeros;
 	int			width_precision;
@@ -35,6 +36,7 @@ void			flag_point_handle(va_list ap, char **str, t_flags *flags);
 void			flag_zero_handle(va_list ap, char **str, t_flags *flags);
 
 void			handle_char(int *size, va_list ap, t_flags *flags, char c);
+void			handle_float(int *size, t_flags *flags, va_list ap);
 void			handle_n(char **str, va_list ap, int *size);
 void			handle_plus(t_flags *flags, int *len, char *str);
 int				handle_pointer(int *size, t_flags *flags, char **str);
@@ -43,7 +45,8 @@ void			handle_types(char **str, va_list ap, int *size, t_flags *flags);
 int				handle(int *size, t_flags *flags, char *str);
 
 char			*hex_itoa(unsigned long nbr, int upper);
-char			*unsigned_itoa(unsigned int n);
+char			*long_long_itoa(long long int n);
+char			*unsigned_itoa(unsigned long long int n);
 
 int				ft_printf(const char *format, ...);
 

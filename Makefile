@@ -6,7 +6,7 @@
 #    By: estina <estina@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 13:13:02 by estina            #+#    #+#              #
-#    Updated: 2019/11/25 04:17:40 by estina           ###   ########.fr        #
+#    Updated: 2019/11/26 07:00:34 by estina           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,11 @@ LIB = libft/libft.a
 
 SRCS =		flag_minus_handle.c		flag_none_handle.c				\
 			flag_point_handle.c		flag_zero_handle.c				\
-			handle_char.c			handle_n.c						\
-			handle.c				handle_pointer.c				\
-			handle_string.c			handle_types.c					\
-			hex_itoa.c				unsigned_itoa.c
+			handle_char.c			handle_float.c					\
+			handle_n.c				handle.c						\
+			handle_pointer.c		handle_string.c					\
+			handle_types.c			hex_itoa.c						\
+			long_long_itoa.c		unsigned_itoa.c
 			
 
 PRSRC = ft_printf.c
@@ -54,6 +55,9 @@ $(LIB):
 	-@cd objs && ar -x ../libft/libft.a
 
 $(NAME): $(LIB) $(OBJ) $(PR)
+	-@ar rcs $(NAME) $(OBJ) $(PR) $(OBJ_LIB)
+
+bonus: $(LIB) $(OBJ) $(PR)
 	-@ar rcs $(NAME) $(OBJ) $(PR) $(OBJ_LIB)
 
 $(OBJDIR)/%.o: $(DIR)/%.c Makefile

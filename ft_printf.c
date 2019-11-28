@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:35:20 by estina            #+#    #+#             */
-/*   Updated: 2019/11/25 05:46:46 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/26 01:43:28 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ static void	flags_handler(char **str, va_list ap, t_flags *flags)
 		flags->flag_plus = 2;
 		(*str)++;
 	}
+	if (**str == '#')
+	{
+		flags->flag_sharp = 1;
+		(*str)++;
+	}
 	while (**str == '0' || **str == '-' || **str == '+')
 		check_minus_zero(str, flags);
 	if (**str == '*' || ft_isdigit(**str))
@@ -74,6 +79,8 @@ static void	init_flags(t_flags *flags)
 	flags->flag_zero = 0;
 	flags->flag_align_right = 0;
 	flags->flag_plus = 0;
+	flags->flag_ll = 0;
+	flags->flag_sharp = 0;
 	flags->spaces_zeros = 0;
 	flags->width_precision = 0;
 }

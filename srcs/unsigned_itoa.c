@@ -6,17 +6,17 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 16:10:07 by estina            #+#    #+#             */
-/*   Updated: 2019/11/22 02:16:10 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/26 01:00:54 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char		*unsigned_itoa(unsigned int n)
+char		*unsigned_itoa(unsigned long long int n)
 {
-	char			*number;
-	int				num_digits;
-	unsigned int	aux;
+	char					*number;
+	int						num_digits;
+	unsigned long long int	aux;
 
 	aux = n;
 	num_digits = 1;
