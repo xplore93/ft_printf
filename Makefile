@@ -6,7 +6,7 @@
 #    By: estina <estina@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 13:13:02 by estina            #+#    #+#              #
-#    Updated: 2019/11/26 07:00:34 by estina           ###   ########.fr        #
+#    Updated: 2019/11/28 05:28:19 by estina           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRCS =		flag_minus_handle.c		flag_none_handle.c				\
 			handle_n.c				handle.c						\
 			handle_pointer.c		handle_string.c					\
 			handle_types.c			hex_itoa.c						\
-			long_long_itoa.c		unsigned_itoa.c
+			long_long_itoa.c		unsigned_itoa.c					\
+			long_itoa.c				unsigned_long_itoa.c
 			
 
 PRSRC = ft_printf.c

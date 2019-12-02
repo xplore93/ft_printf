@@ -6,13 +6,13 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 19:59:38 by estina            #+#    #+#             */
-/*   Updated: 2019/11/28 10:42:13 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/02 15:22:30 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	handle_bonus(char **str, t_flags *flags, int *size, va_list ap)
+static void	handle_bonus(char **str, t_flags *flags)
 {
 	if (!ft_strncmp(*str, "hh", 2))
 	{
@@ -34,25 +34,33 @@ static void	handle_bonus(char **str, t_flags *flags, int *size, va_list ap)
 		flags->flag_ll = 1;
 		(*str)++;
 	}
-	else if (**str == 'f')
-		handle_float(size, flags, ap);
 }
 
-static void	handle_pb(char **str, va_list ap, int *size, t_flags *flags)
+static int	handle_pb(char **str, va_list ap, int *size, t_flags *flags)
 {
 	char	*aux;
 	char	*tmp;
 
-	handle_bonus(str, flags, size, ap);
-	if (**str == 'p')
+	handle_bonus(str, flags);
+	if (**str == 'f')
+	{
+		handle_float(size, flags, ap);
+		return (1);
+	}
+	else if (**str == 'p')
 	{
 		tmp = hex_itoa(va_arg(ap, unsigned long), 0);
 		aux = ft_strjoin("0x", tmp);
 		handle_pointer(size, flags, &aux);
 		free(tmp);
+		return (1);
 	}
 	else if (**str == 'n')
-		handle_n(str, ap, size);
+	{
+		handle_n(ap, size);
+		return (1);
+	}
+	return (0);
 }
 
 static void	handle_int(t_flags *flags, va_list ap, int *size)
@@ -65,10 +73,10 @@ static void	handle_int(t_flags *flags, va_list ap, int *size)
 		aux = long_long_itoa(va_arg(ap, long long int));
 	else if (flags->flag_ll == 1)
 		aux = long_itoa(va_arg(ap, long int));
-	else if (flags->flag_hh == 2)
+	else if (flags->flag_hh == 1)
 		aux = ft_itoa((short)va_arg(ap, int));
 	else
-		aux = ft_itoa(va_arg(ap, int));
+		aux = ft_itoa((char)va_arg(ap, int));
 	handle(size, flags, aux);
 	free(aux);
 }
@@ -77,7 +85,7 @@ static void	handle_hex(va_list ap, char **str, t_flags *flags, int *size)
 {
 	char	*aux;
 
-	aux = hex_itoa(va_arg(ap, unsigned long), (**str == 'x' ? 0 : 1));
+	aux = pointer_handler(flags, ap, str);
 	if (flags->flag_sharp && *aux != '0')
 	{
 		if (**str == 'x')
@@ -87,10 +95,8 @@ static void	handle_hex(va_list ap, char **str, t_flags *flags, int *size)
 		handle_pointer(size, flags, &aux);
 	}
 	else
-	{
 		handle(size, flags, aux);
-		free(aux);
-	}
+	free(aux);
 }
 
 /*
@@ -102,7 +108,8 @@ static void	handle_hex(va_list ap, char **str, t_flags *flags, int *size)
 
 void		handle_types(char **str, va_list ap, int *size, t_flags *flags)
 {
-	handle_pb(str, ap, size, flags);
+	if (handle_pb(str, ap, size, flags))
+		return ;
 	if (**str == 'c' || **str == '%')
 		handle_char(size, ap, flags, **str);
 	else if (**str == 's')

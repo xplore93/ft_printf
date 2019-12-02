@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 16:10:07 by estina            #+#    #+#             */
-/*   Updated: 2019/11/28 05:52:03 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/29 21:39:03 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void			handle_unsigned(va_list ap, int *size, t_flags *flags)
 	else if (flags->flag_ll == 2)
 		aux = unsigned_long_itoa(va_arg(ap, unsigned long long int));
 	else if (flags->flag_hh == 2)
-		aux = unsigned_int_itoa(va_arg(ap, unsigned int));
+		aux = unsigned_int_itoa((unsigned char)va_arg(ap, unsigned int));
 	else
-		aux = unsigned_int_itoa(va_arg(ap, unsigned int));
+		aux = unsigned_int_itoa((unsigned short)va_arg(ap, unsigned int));
 	handle(size, flags, aux);
 }

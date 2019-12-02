@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 00:11:06 by estina            #+#    #+#             */
-/*   Updated: 2019/11/28 05:29:18 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/29 22:04:35 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 static void	flag_right(int *size, t_flags *flags, char **str)
 {
-	if (flags->width_precision > (int)ft_strlen(*str))
+	if (flags->width_precision > (int)ft_strlen(*str) - 2)
 		flags->spaces_zeros -= flags->width_precision + 2;
 	else
 		flags->spaces_zeros -= ft_strlen(*str);
-	while (flags->spaces_zeros-- > 0)
+	while (flags->spaces_zeros > 0)
 	{
 		ft_putchar_fd(' ', 1);
 		(*size)++;
+		flags->spaces_zeros--;
 	}
 }
 

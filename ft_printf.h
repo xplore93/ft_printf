@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 13:08:37 by estina            #+#    #+#             */
-/*   Updated: 2019/11/28 05:38:15 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/02 15:21:52 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include <stdarg.h>
+# include <stdio.h>
 
 typedef struct	s_flags
 {
@@ -38,13 +39,14 @@ void			flag_zero_handle(va_list ap, char **str, t_flags *flags);
 
 void			handle_char(int *size, va_list ap, t_flags *flags, char c);
 void			handle_float(int *size, t_flags *flags, va_list ap);
-void			handle_n(char **str, va_list ap, int *size);
+void			handle_n(va_list ap, int *size);
 void			handle_plus(t_flags *flags, int *len, char *str);
 int				handle_pointer(int *size, t_flags *flags, char **str);
 int				handle_string(int *size, va_list ap, t_flags *flags);
 void			handle_types(char **str, va_list ap, int *size, t_flags *flags);
 int				handle(int *size, t_flags *flags, char *str);
 void			handle_unsigned(va_list ap, int *size, t_flags *flags);
+char			*pointer_handler(t_flags *flags, va_list ap, char **str);
 
 char			*hex_itoa(unsigned long nbr, int upper);
 char			*long_itoa(long int n);

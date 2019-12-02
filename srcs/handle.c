@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 16:39:34 by estina            #+#    #+#             */
-/*   Updated: 2019/11/28 05:20:57 by estina           ###   ########.fr       */
+/*   Updated: 2019/11/29 22:16:22 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,19 @@
 
 static void	handle_align(int *size, t_flags *flags, int len, char *str)
 {
-	if (flags->width_precision > len)
+	if (flags->width_precision >= len)
 	{
-		flags->spaces_zeros -= flags->width_precision - len;
+		flags->spaces_zeros -= flags->width_precision;
 		if (*str == '-' || *str == '+')
-			len++;
+			flags->spaces_zeros--;
 	}
-	while (flags->spaces_zeros-- > len)
+	else
+		flags->spaces_zeros -= len;
+	while (flags->spaces_zeros > 0)
 	{
 		ft_putstr_fd(" ", 1);
 		(*size)++;
+		flags->spaces_zeros--;
 	}
 }
 
@@ -41,7 +44,7 @@ static void	handle_align(int *size, t_flags *flags, int len, char *str)
 **	sign of the number.
 */
 
-static void	handle_zeros(int *size, t_flags *flags, int *len, char *str)
+static void	handle_zeros(int *size, t_flags *flags, int *len, char **str)
 {
 	int		*chars;
 
@@ -49,16 +52,19 @@ static void	handle_zeros(int *size, t_flags *flags, int *len, char *str)
 		chars = &flags->spaces_zeros;
 	else
 		chars = &flags->width_precision;
-	if (*str == '-' || *str == '+')
+	*chars -= *len;
+	if (**str == '-' || **str == '+')
 	{
-		ft_putstr_fd((*str == '-' ? "-" : "+"), 1);
-		if (flags->flag_point)
+		ft_putstr_fd((**str == '-' ? "-" : "+"), 1);
+		(*size)++;
+		(*str)++;
+		if (!flags->flag_zero)
 		{
-			(*size)++;
-			(*len)--;
+			flags->spaces_zeros -= (!flags->flag_minus ? 1 : 0);
+			flags->width_precision++;
 		}
 	}
-	while (*chars > *len)
+	while (*chars > 0)
 	{
 		ft_putstr_fd("0", 1);
 		(*size)++;
@@ -93,7 +99,7 @@ static void	check_point(t_flags *flags, int *len, char **str)
 	}
 }
 
-static void	check_plus(t_flags *flags, char **str)
+static void	check_plus(t_flags *flags, char **str, int *size)
 {
 	char	*aux;
 
@@ -108,6 +114,7 @@ static void	check_plus(t_flags *flags, char **str)
 	if (flags->flag_plus == 2 && **str != '-')
 	{
 		ft_putstr_fd(" ", 1);
+		(*size)++;
 		flags->spaces_zeros--;
 	}
 }
@@ -128,20 +135,15 @@ int			handle(int *size, t_flags *flags, char *str)
 
 	if (!str)
 		return (0);
-	check_plus(flags, &str);
+	check_plus(flags, &str, size);
 	check_point(flags, &len, &str);
 	if (flags->flag_align_right)
 		handle_align(size, flags, len, str);
 	if (flags->flag_zero || flags->flag_point)
-		handle_zeros(size, flags, &len, str);
-	if ((flags->flag_zero || flags->flag_point) && (*str == '-' || *str == '+'))
-	{
-		str++;
-		flags->spaces_zeros--;
-	}
+		handle_zeros(size, flags, &len, &str);
 	ft_putstr_fd(str, 1);
 	if (flags->flag_minus)
 		handle_align(size, flags, len, str);
-	*size += len;
+	*size += ft_strlen(str);
 	return (1);
 }
