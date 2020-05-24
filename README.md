@@ -27,7 +27,7 @@ int ft_printf(const char *, ...)
 ```
 
 Description | Param. #1 | Param. N | Return Value
-:-----------: | :-----------: | :-----------: | :-----------: | :-----------:
+:-----------: | :-----------: | :-----------: | :-----------:
 Write a library that contains ft_printf, a function that will mimic the real printf | String that should be printed | Arguments that should be transformed and printed | N : Number of characters printed; -1 : An error happened
 
 [1]: https://www.42madrid.com/
