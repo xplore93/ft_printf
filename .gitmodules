@@ -1,0 +1,3 @@
+[submodule "ft_printf/Libft"]
+	path = ft_printf/Libft
+	url = https://github.com/xplore93/Libft
