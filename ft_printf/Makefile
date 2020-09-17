@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: estina <estina@student.42.fr>              +#+  +:+       +#+         #
+#    By: estina <estina@student.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 13:13:02 by estina            #+#    #+#              #
-#    Updated: 2019/11/28 05:28:19 by estina           ###   ########.fr        #
+#    Updated: 2020/09/18 00:17:07 by estina           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,9 @@ DIR = srcs
 
 OBJDIR = objs
 
-LIB = libft/libft.a
+LIBPATH = Libft/Libft
+
+LIB = $(LIBPATH)/libft.a
 
 SRCS =		flag_minus_handle.c		flag_none_handle.c				\
 			flag_point_handle.c		flag_zero_handle.c				\
@@ -46,14 +48,14 @@ OBJ = $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))
 
 OBJ_LIB = $(addprefix $(OBJDIR)/,$(SRCS_LIB:.c=.o))
 
-HEADERS = -I ./ -I libft/
+HEADERS = -I ./ -I $(LIBPATH)
 
 all: $(NAME)
 
 $(LIB):
-	-@make -C libft
+	-@make -C $(LIBPATH)
 	-@mkdir -p $(OBJDIR) $(OBJPR)
-	-@cd objs && ar -x ../libft/libft.a
+	-@cd objs && ar -x ../$(LIBPATH)/libft.a
 
 $(NAME): $(LIB) $(OBJ) $(PR)
 	-@ar rcs $(NAME) $(OBJ) $(PR) $(OBJ_LIB)
@@ -69,11 +71,11 @@ $(OBJDIR)/%.o: %.c Makefile
 
 clean:
 	-@rm -rf $(OBJDIR)
-	-@make -s -C libft clean
+	-@make -s -C $(LIBPATH) clean
 
 fclean: clean
 	-@rm -f $(NAME) test
-	-@make -s -C libft fclean
+	-@make -s -C $(LIBPATH) fclean
 
 re: fclean all
 
